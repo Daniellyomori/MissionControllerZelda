@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Controle De Missoes Do Jogo Zelda: Tears of The Kingdom</string>
+    <string name="nome_missao">Nome Missão</string>
+    <string name="npc_missao">NPC da Missão</string>
+    <string name="regiao">Região</string>
+    <string name="precisa_completar">Precisa completar outra missão antes dessa?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="qual">Qual?</string>
+    <string name="anotacoes">Anotações</string>
+    <string name="missao_completa">Missão Completa</string>
+    <string name="limpar">Limpar</string>
+    <string name="salvar">Salvar</string>
+    <string name="apagados_valores">Valores informados apagados!</string>
+    <string name="valida_nome_missao">Campo [Nome Missão] não pode ser nulo!</string>
+    <string name="valida_anotacoes">Campo [Anotação] não pode ser nulo!</string>
+    <string name="valida_nome_npc">Campo [Nome NPC] não pode ser nulo!</string>
+    <string name="valida_radio_button_missao_dependente">Campo [Precisa Completar Missão] precisa estar selecionado!</string>
+
+    <string name="north_hyrule_field">North Hyrule Field</string>
+    <string name="south_hyrule_field">South Hyrule Field</string>
+    <string name="hyrule_ridge_and_tabantha_frontier">Hyrule Ridge and Tabantha Frontier</string>
+    <string name="faron">Faron</string>
+    <string name="eldin">Eldin</string>
+    <string name="akkala">Akala</string>
+    <string name="gerudo">Gerudo </string>
+    <string name="hebra">Hebra </string>
+</resources>

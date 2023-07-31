@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="regioes">
+        <item>@string/akkala</item>
+        <item>@string/north_hyrule_field</item>
+        <item>@string/south_hyrule_field</item>
+        <item>@string/hyrule_ridge_and_tabantha_frontier</item>
+        <item>@string/faron</item>
+        <item>@string/eldin</item>
+        <item>@string/akkala</item>
+        <item>@string/gerudo</item>
+        <item>@string/hebra</item>
+    </string-array>
+</resources>
