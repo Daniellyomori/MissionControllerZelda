@@ -2,122 +2,106 @@ package daniellyomori.utfpr.edu.controledemissoesdojogozelda;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextNomeMissao, editTextNpc, editTextQualMissao, editTextAnotacoes;
-    private CheckBox cbMissaoCompleta;
-    private RadioGroup radioGroupMissaCompleta;
-    private Spinner spinnerRegioes;
+    private ListView listViewMissoes;
+    private ArrayList<Missao> listaMissoes;
+
+    MissaoAdapter missaoAdapter;
+    private int  posicaoSelecionada = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editTextNomeMissao = findViewById(R.id.editTextNomeMissao);
-        editTextNpc = findViewById(R.id.editTextNpcMissao);
-        editTextAnotacoes = findViewById(R.id.editTextTextMultiLineAnotacoes);
-        editTextQualMissao = findViewById(R.id.editTextQualMissao);
 
-        cbMissaoCompleta = findViewById(R.id.checkBoxMissaoCompleta);
+        listViewMissoes = findViewById(R.id.listViewMissao);
 
-        radioGroupMissaCompleta = findViewById(R.id.radioGroupCompletarMissao);
+        listViewMissoes.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        posicaoSelecionada = position;
+                        alterarMissao();
+                    }
+                });
 
-        spinnerRegioes = findViewById(R.id.spinnerRegiao);
+        listViewMissoes.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
 
-        radioGroupMissaCompleta.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.radioButtonSim){
-                    editTextQualMissao.setVisibility(View.VISIBLE);
-                }
-                else{
-                    editTextQualMissao.setVisibility(View.GONE);
-                }
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        posicaoSelecionada = position;
+                        alterarMissao();
+                        return true;
+                    }
+                });
+        popularLista();
+    }
+    private void popularLista(){
+        listaMissoes = new ArrayList<>();
+        missaoAdapter = new MissaoAdapter(this, listaMissoes);
+        listViewMissoes.setAdapter(missaoAdapter);
+    }
+
+    private void alterarMissao(){
+        Missao missao = listaMissoes.get(posicaoSelecionada);
+        MissaoActivity.alterarMissao(this, missao);
+    }
+
+    public void adicionarMissao(View view){
+        MissaoActivity.novaMissao(this);
+    }
+
+    public void abrirSobre(View view){
+        SobreActivity.sobre(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String nomeMissao = bundle.getString(MissaoActivity.NOME);
+            String nomeNPC = bundle.getString(MissaoActivity.NOME_NPC);
+            String regiao = bundle.getString(MissaoActivity.REGIAO);
+            int precisaCompletarMissao = bundle.getInt(MissaoActivity.PRECISA_COMPLETAR_MISSAO);
+            String qualMissao = bundle.getString(MissaoActivity.QUAL_MISSAO);
+            String anotacoes = bundle.getString(MissaoActivity.ANOTACOES);
+            boolean missaoCompleta = bundle.getBoolean(MissaoActivity.MISSAO_COMPLETA);
+
+            if (requestCode == MissaoActivity.ALTERAR) {
+                Missao missao = listaMissoes.get(posicaoSelecionada);
+                missao.setNomeMissao(nomeMissao);
+                missao.setNomeNPCMissao(nomeNPC);
+                missao.setRegiao(new Regiao(regiao));
+                missao.setPrecisaCompletarMissao(precisaCompletarMissao);
+                missao.setQualMissao(qualMissao);
+                missao.setAnotacoes(anotacoes);
+                missao.setMissaoCompleta(missaoCompleta);
+                posicaoSelecionada = -1;
+
+            } else {
+                listaMissoes.add(new Missao(nomeMissao, nomeNPC, new Regiao(regiao), precisaCompletarMissao,
+                        qualMissao, anotacoes, missaoCompleta));
             }
-        });
-        popularRegioes();
+
+            missaoAdapter.notifyDataSetChanged();
+        }
     }
-
-    public void limparCampos(View view) {
-        editTextNomeMissao.setText(null);
-        editTextNpc.setText(null);
-        editTextAnotacoes.setText(null);
-        editTextQualMissao.setText(null);
-        cbMissaoCompleta.setChecked(false);
-        radioGroupMissaCompleta.clearCheck();
-
-        editTextNomeMissao.requestFocus();
-
-        Toast.makeText(this, getText(R.string.apagados_valores), Toast.LENGTH_SHORT).show();
-    }
-
-    public void popularRegioes(){
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this,
-                        android.R.layout.simple_spinner_item,
-                        getResources().getStringArray(R.array.regioes));
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerRegioes.setAdapter(adapter);
-    }
-
-    public void salvar (View view) {
-        String mensagemEditText = "";
-        String mensagemRadioButton = "";
-
-        String nomeMissao = editTextNomeMissao.getText().toString();
-        String anotacoes = editTextAnotacoes.getText().toString();
-        String nomeNpc = editTextNpc.getText().toString();
-
-        int radioButtonId = radioGroupMissaCompleta.getCheckedRadioButtonId();
-        
-        //1. Não utilizados pois não se encaixam nas validacoes solicitadas no enunciado.
-        //2. O campo qualRegiao nao foi validado mesmo sendo editText pois o mesmo só é visivel
-        //caso opção sim seja marcada, o que causaria muito problema
-        //String missaoCompleta = cbMissaoCompleta.getText().toString();
-        //String regiao = spinnerRegioes.getSelectedItem().toString();
-        //String qualRegiao = editTextQualMissao.getText().toString();
-
-        if(nomeMissao == null|| nomeMissao.trim().isEmpty())
-        {
-            mensagemEditText += getString(R.string.valida_nome_missao);
-            editTextNomeMissao.requestFocus();
-        }
-        else{
-            if(nomeNpc == null|| nomeNpc.trim().isEmpty()){
-                mensagemEditText += getString(R.string.valida_nome_npc);
-                editTextNpc.requestFocus();
-            }
-            else{
-                if(anotacoes == null|| anotacoes.trim().isEmpty()){
-                    mensagemEditText += getString(R.string.valida_anotacoes);
-                    editTextAnotacoes.requestFocus();
-                }
-            }
-        }
-
-
-        if(!(radioButtonId == R.id.radioButtonSim) && !(radioButtonId == R.id.radioButtonNao)){
-            mensagemRadioButton +=getString(R.string.valida_radio_button_missao_dependente);
-        }
-
-        if(!mensagemEditText.equals("")){
-            Toast.makeText(this, mensagemEditText, Toast.LENGTH_SHORT).show();
-        }
-        if(!mensagemRadioButton.equals("")){
-            Toast.makeText(this, mensagemRadioButton, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-
 }

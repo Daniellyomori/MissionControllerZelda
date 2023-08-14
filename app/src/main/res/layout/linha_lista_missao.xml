@@ -12,7 +12,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/nome_regiao"
+        android:text="@string/nome_missao"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/nome_torre"
+        android:text="@string/npc_missao"
         app:layout_constraintStart_toStartOf="@+id/textViewNomeMissao"
         app:layout_constraintTop_toBottomOf="@+id/textViewNomeMissao" />
 
@@ -32,7 +32,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/tipo"
+        android:text="@string/regiao"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNomeNPCMissao" />
 
@@ -65,11 +65,14 @@
 
     <TextView
         android:id="@+id/textViewRegiaoValor"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewRegiao"
         app:layout_constraintTop_toBottomOf="@+id/textViewNomeNPCMissaoValor" />
 
@@ -77,12 +80,12 @@
         android:id="@+id/textViewCompletarMissao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/qtde_shrines"
-        app:layout_constraintStart_toEndOf="@+id/textViewRegiaoValor"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNomeNPCMissaoValor" />
+        android:text="@string/precisa_completar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegiaoValor" />
 
     <TextView
         android:id="@+id/textViewCompletarMissaoValor"
@@ -94,6 +97,80 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textViewCompletarMissao"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNomeNPCMissaoValor" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegiaoValor" />
+
+    <TextView
+        android:id="@+id/textViewQualMissao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/qual"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCompletarMissao" />
+
+    <TextView
+        android:id="@+id/textViewQualMissaoValor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewQualMissao"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCompletarMissao" />
+
+    <TextView
+        android:id="@+id/textViewAnotacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/anotacoes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewQualMissao" />
+
+    <TextView
+        android:id="@+id/textViewAnotacoesValor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewAnotacoes"
+        app:layout_constraintTop_toBottomOf="@+id/textViewQualMissaoValor" />
+
+    <TextView
+        android:id="@+id/textViewMissaoCompleta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/missao_completa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnotacoes" />
+
+    <TextView
+        android:id="@+id/textViewMissaoCompletaValor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewMissaoCompleta"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnotacoesValor" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,5 +69,22 @@
     <string name="gerudo_highlands_skyview_tower">Gerudo Highlands Skyview Tower</string>
 
     <string name="nao_possui">Não Possui</string>
+    <string name="missao">"Missão "</string>
+
+    <string name="nova_missao">"Nova Missão "</string>
+    <string name="alterar_missao">"Alterar Missão "</string>
+    <string name="o_nome_da_missao_nao_pode_ser_vazio">"O nome da missão não pode ser vazio"</string>
+    <string name="o_nome_do_npc_nao_pode_ser_vazio">"O nome do npc não pode ser vazio"</string>
+    <string name="as_anotacoes_nao_podem_estar_vazia">"As anotações não podem estar vazias"</string>
+    <string name="erro_regiao_vazia">"Campo região não pode estar vazio"</string>
+    <string name="erro_outra_missao_precisa_ser_completada">"Campo precisa completar outra missao não pode estar vazio"</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="novo">Novo</string>
+    <string name="sobre">Sobre</string>
+    <string name="autor">Autor: Danielly Omori Antunes de Oliveira</string>
+    <string name="curso">Curso: Especialização Java</string>
+    <string name="email">Email: daniellyomori@alunos.utfpr.edu.br</string>
+    <string name="objetivo">Criar um aplicativo que auxilie no controle de missões do jogo Zelda: Tears of the Kindgom</string>
+    <string name="adicionar">Adicionar</string>
 
 </resources>

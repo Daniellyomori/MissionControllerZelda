@@ -51,10 +51,10 @@ public class RegiaoAdapter extends BaseAdapter {
 
             holder = new RegiaoHolder();
 
-            holder.textViewNomeRegiaoValor = convertView.findViewById(R.id.textViewNomeRegiaoValor);
-            holder.textViewNomeTorreValor = convertView.findViewById(R.id.textViewNomeTorreValor);
-            holder.textViewTipoRegiaoValor = convertView.findViewById(R.id.textViewTipoRegiaoValor);
-            holder.textViewQtdeShrinesValor = convertView.findViewById(R.id.textViewQtdeShrinesValor);
+            holder.textViewNomeRegiaoValor = convertView.findViewById(R.id.textViewNomeMissaoValor);
+            holder.textViewNomeTorreValor = convertView.findViewById(R.id.textViewNomeNPCMissaoValor);
+            holder.textViewTipoRegiaoValor = convertView.findViewById(R.id.textViewRegiaoValor);
+            holder.textViewQtdeShrinesValor = convertView.findViewById(R.id.textViewCompletarMissaoValor);
 
             convertView.setTag(holder);
         }
