@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="regioes">
+        <item>@string/north_hyrule_field</item>
+        <item>@string/south_hyrule_field</item>
+        <item>@string/hyrule_ridge_and_tabantha_frontier</item>
+        <item>@string/hebra_mountains</item>
+        <item>@string/west_necluda_and_lanayru_wetlands</item>
+        <item>@string/faron</item>
+        <item>@string/eldin</item>
+        <item>@string/mount_lanaryu</item>
+        <item>@string/lanayru_great_spring</item>
+        <item>@string/east_necluda</item>
+        <item>@string/akkala</item>
+        <item>@string/gerudo_desert</item>
+        <item>@string/great_hyrule_forest</item>
+        <item>@string/tabantha_tundra</item>
+        <item>@string/gerudo_highlands</item>
+
+        <item>@string/central_hyrule</item>
+        <item>@string/hebra</item>
+        <item>@string/faron_sky</item>
+        <item>@string/akkala_sky</item>
+        <item>@string/lanaryu</item>
+        <item>@string/necluda</item>
+        <item>@string/eldin_sky</item>
+        <item>@string/gerudo</item>
+    </string-array>
+
+    <string-array name="nome_torres">
+        <item>@string/lookout_landing_skyview_tower</item>
+        <item>@string/hyrule_field_skyview_tower</item>
+        <item>@string/lindors_brow_skyview_tower</item>
+        <item>@string/rospro_pass_skyview_tower</item>
+        <item>@string/sahasra_slope_skyview_tower</item>
+        <item>@string/popla_foothills_skyview_tower</item>
+        <item>@string/eldin_canyon_skyview_tower</item>
+        <item>@string/mount_lanayru_skyview_tower</item>
+        <item>@string/upland_zorana_skyview_tower</item>
+        <item>@string/rabella_wetlands_skyview_tower</item>
+        <item>@string/ulri_mountains_skyview_tower</item>
+        <item>@string/gerudo_canyon_skyview_tower</item>
+        <item>@string/thyphlo_ruins_skyview_tower</item>
+        <item>@string/pikida_stonegrove_skyview_tower</item>
+        <item>@string/gerudo_highlands_skyview_tower</item>
+
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+        <item>@string/nao_possui</item>
+    </string-array>
+
+    <integer-array name="tipo_regiao">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+
+    <integer-array name="qtde_shrines">
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>10</item>
+        <item>9</item>
+        <item>7</item>
+        <item>11</item>
+        <item>4</item>
+        <item>7</item>
+        <item>6</item>
+        <item>10</item>
+        <item>12</item>
+        <item>9</item>
+        <item>5</item>
+        <item>7</item>
+
+        <item>4</item>
+        <item>5</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>4</item>
+        <item>1</item>
+        <item>2</item>
+    </integer-array>
+</resources>
