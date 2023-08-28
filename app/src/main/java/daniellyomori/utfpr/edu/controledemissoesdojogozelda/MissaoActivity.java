@@ -155,8 +155,9 @@ public class MissaoActivity extends AppCompatActivity {
 
                 boolean missaoCompleta = bundle.getBoolean(MISSAO_COMPLETA);
                 cbMissaoCompleta.setChecked(missaoCompleta);
+                setTitle(getString(R.string.alterar_missao));
             }
-            setTitle(getString(R.string.alterar_missao));
+
         }
     }
     public void salvar() {
@@ -247,7 +248,7 @@ public class MissaoActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.missos_opcoes, menu);
+        getMenuInflater().inflate(R.menu.missoes_opcoes, menu);
         return true;
     }
 

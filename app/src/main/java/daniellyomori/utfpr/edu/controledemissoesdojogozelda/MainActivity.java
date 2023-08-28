@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -18,7 +20,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
     private View viewSelecionada;
 
     private androidx.appcompat.view.ActionMode actionMode;
+
+    private static final String ARQUIVO =
+            "daniellyomori.utfpr.edu.controledemissoesdojogozelda.sharedpreferences.PREFERENCIAS_ORDENACAO";
+
+    private static final String ORDENACAO = "ORDENCAO";
+
+    private static final String ASC = "ASC";
+    private static final String DESC = "DESC";
+
+    private String modoOrdenacao = "ASC";
+
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -107,6 +123,42 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         popularLista();
+        lerPreferenciaOrdenacao();
+    }
+    private void lerPreferenciaOrdenacao(){
+        SharedPreferences shared = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
+        modoOrdenacao = shared.getString(ORDENACAO, modoOrdenacao);
+        alteraOrdenacao();
+    }
+
+    private void salvarPreferenciaOrdenacao(String novoModo){
+        SharedPreferences shared = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+
+        editor.putString(ORDENACAO, novoModo);
+        editor.commit();
+
+        modoOrdenacao = novoModo;
+        alteraOrdenacao();
+    }
+    private void alteraOrdenacao(){
+        if(modoOrdenacao.equals(ASC)){
+            Collections.sort(listaMissoes, new Comparator<Missao>() {
+                @Override
+                public int compare(final Missao object1, final Missao object2) {
+                    return object1.getNomeMissao().compareTo(object2.getNomeMissao());
+                }
+            });
+        }
+        else{
+            Collections.sort(listaMissoes, new Comparator<Missao>() {
+                @Override
+                public int compare(final Missao object1, final Missao object2) {
+                    return object2.getNomeMissao().compareTo(object1.getNomeMissao());
+                }
+            });
+        }
+        missaoAdapter.notifyDataSetChanged();
     }
     private void popularLista(){
         listaMissoes = new ArrayList<>();
@@ -160,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 listaMissoes.add(new Missao(nomeMissao, nomeNPC, new Regiao(regiao), precisaCompletarMissao,
                         qualMissao, anotacoes, missaoCompleta));
             }
-
+            alteraOrdenacao();
             missaoAdapter.notifyDataSetChanged();
         }
     }
@@ -183,8 +235,40 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else{
-                return super.onOptionsItemSelected(item);
+                if(item.getItemId() == R.id.menuOrdenaASC){
+                    item.setChecked(true);
+                    salvarPreferenciaOrdenacao(ASC);
+                    return true;
+                }
+                else{
+                    if(item.getItemId() == R.id.menuOrdenaDESC){
+                        item.setChecked(true);
+                        salvarPreferenciaOrdenacao(DESC);
+                        return true;
+                    }
+                    else{
+                        return super.onOptionsItemSelected(item);
+                    }
+                }
             }
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item;
+        if(modoOrdenacao.equals(ASC)){
+            item = menu.findItem(R.id.menuOrdenaASC);
+        }
+        else{
+            if(modoOrdenacao.equals(DESC)){
+                item = menu.findItem(R.id.menuOrdenaDESC);
+            }
+            else{
+                return false;
+            }
+        }
+        item.setChecked(true);
+        return true;
     }
 }

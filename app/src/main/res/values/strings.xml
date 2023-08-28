@@ -1,93 +1,95 @@
 <resources>
-    <string name="app_name">Controle De Missoes Do Jogo Zelda: Tears of The Kingdom</string>
-    <string name="nome_missao">Nome Missão</string>
-    <string name="npc_missao">NPC da Missão</string>
-    <string name="regiao">Região</string>
-    <string name="precisa_completar">Precisa completar outra missão antes dessa?</string>
-    <string name="sim">Sim</string>
-    <string name="nao">Não</string>
-    <string name="qual">Qual?</string>
-    <string name="anotacoes">Anotações</string>
-    <string name="missao_completa">Missão Completa</string>
-    <string name="limpar">Limpar</string>
-    <string name="salvar">Salvar</string>
-    <string name="apagados_valores">Valores informados apagados!</string>
-    <string name="valida_nome_missao">Campo [Nome Missão] não pode ser nulo!</string>
-    <string name="valida_anotacoes">Campo [Anotação] não pode ser nulo!</string>
-    <string name="valida_nome_npc">Campo [Nome NPC] não pode ser nulo!</string>
-    <string name="valida_radio_button_missao_dependente">Campo [Precisa Completar Missão] precisa estar selecionado!</string>
+    <string name="app_name">" Zelda: Tears of the Kingdom Quest Control"</string>
+    <string name="nome_missao">Quest Name:</string>
+    <string name="npc_missao">Quest NPC:</string>
+    <string name="regiao">Region:</string>
+    <string name="precisa_completar">Need to complete other quest before this one?</string>
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
+    <string name="qual">Which one?</string>
+    <string name="anotacoes">Notes:</string>
+    <string name="missao_completa">Quest Completed</string>
+    <string name="limpar">Clean</string>
+    <string name="salvar">Save</string>
+    <string name="apagados_valores">Values deleted!</string>
+    <string name="valida_nome_missao">Field [Quest Name] can not be null!</string>
+    <string name="valida_anotacoes">Field [Notes] can not be null!</string>
+    <string name="valida_nome_npc">Field [Quest NPC] can not be null!!</string>
+    <string name="valida_radio_button_missao_dependente">Button [Complete Another Quest] needs to be selected!</string>
 
-    <string name="regiao_espaco">"Região "</string>
-    <string name="nome_regiao">Nome Região:</string>
-    <string name="nome_torre">Nome Torre:</string>
-    <string name="tipo">Tipo: </string>
-    <string name="foi_clicada">" foi clicada!"</string>
-    <string name="qtde_shrines">Qtde Shrines:</string>
+    <string name="regiao_espaco">"Region  "</string>
+    <string name="nome_regiao">Region Name:</string>
+    <string name="nome_torre">Tower Name:</string>
+    <string name="tipo">Type:</string>
+    <string name="foi_clicada">" was clicked!"</string>
+    <string name="qtde_shrines">Number of Shrines:</string>
 
-    <string name="ceu">Céu</string>
-    <string name="superficie">Superfície</string>
+    <string name="ceu">Sky</string>
+    <string name="superficie">Surface</string>
 
-    <string name="north_hyrule_field">North Hyrule Field</string>
-    <string name="south_hyrule_field">South Hyrule Field</string>
-    <string name="hyrule_ridge_and_tabantha_frontier">Hyrule Ridge and Tabantha Frontier</string>
-    <string name="faron">Faron</string>
-    <string name="eldin">Eldin</string>
-    <string name="akkala">Akala</string>
-    <string name="tabantha_tundra">Tabantha Tundra</string>
-    <string name="great_hyrule_forest">Great Hyrule Forest</string>
-    <string name="hebra_mountains">Hebra Mountains</string>
-    <string name="west_necluda_and_lanayru_wetlands"> West Necluda and Lanayru Wetlands</string>
-    <string name="mount_lanaryu">Mount Lanayru</string>
-    <string name="lanayru_great_spring">Lanayru Great Spring</string>
-    <string name="east_necluda">East Necluda</string>
-    <string name="gerudo_desert"> Gerudo Desert</string>
-    <string name="gerudo_highlands">Gerudo Highlands</string>
+    <string name="north_hyrule_field" translatable="false">North Hyrule Field</string>
+    <string name="south_hyrule_field" translatable="false">South Hyrule Field</string>
+    <string name="hyrule_ridge_and_tabantha_frontier" translatable="false">Hyrule Ridge and Tabantha Frontier</string>
+    <string name="faron" translatable="false">Faron</string>
+    <string name="eldin" translatable="false">Eldin</string>
+    <string name="akkala" translatable="false">Akala</string>
+    <string name="tabantha_tundra" translatable="false">Tabantha Tundra</string>
+    <string name="great_hyrule_forest" translatable="false">Great Hyrule Forest</string>
+    <string name="hebra_mountains" translatable="false">Hebra Mountains</string>
+    <string name="west_necluda_and_lanayru_wetlands" translatable="false"> West Necluda and Lanayru Wetlands</string>
+    <string name="mount_lanaryu" translatable="false">Mount Lanayru</string>
+    <string name="lanayru_great_spring" translatable="false">Lanayru Great Spring</string>
+    <string name="east_necluda" translatable="false">East Necluda</string>
+    <string name="gerudo_desert" translatable="false"> Gerudo Desert</string>
+    <string name="gerudo_highlands" translatable="false">Gerudo Highlands</string>
 
-    <string name="central_hyrule">Central Hyrule</string>
-    <string name="hebra">Hebra</string>
-    <string name="faron_sky">Faron Sky</string>
-    <string name="akkala_sky">Akala Sky</string>
-    <string name="lanaryu">Lanayru</string>
-    <string name="necluda">Necluda</string>
-    <string name="eldin_sky">Eldin Sky</string>
-    <string name="gerudo">Gerudo</string>
+    <string name="central_hyrule" translatable="false">Central Hyrule</string>
+    <string name="hebra" translatable="false">Hebra</string>
+    <string name="faron_sky" translatable="false">Faron Sky</string>
+    <string name="akkala_sky" translatable="false">Akala Sky</string>
+    <string name="lanaryu" translatable="false">Lanayru</string>
+    <string name="necluda" translatable="false">Necluda</string>
+    <string name="eldin_sky" translatable="false">Eldin Sky</string>
+    <string name="gerudo" translatable="false">Gerudo</string>
 
-    <string name="lookout_landing_skyview_tower">Lookout Landing Skyview Tower</string>
-    <string name="hyrule_field_skyview_tower">Hyrule Field Skyview Tower</string>
-    <string name="lindors_brow_skyview_tower">Lindor’s Brow Skyview Tower</string>
-    <string name="popla_foothills_skyview_tower">Popla Foothills Skyview Tower</string>
-    <string name="eldin_canyon_skyview_tower">Eldin Canyon Skyview Tower</string>
-    <string name="pikida_stonegrove_skyview_tower">Pikida Stonegrove Skyview Tower</string>
-    <string name="thyphlo_ruins_skyview_tower">Thyphlo Ruins Skyview Tower</string>
-    <string name="rospro_pass_skyview_tower">Rospro Pass Skyview Tower</string>
-    <string name="sahasra_slope_skyview_tower">Sahasra Slope Skyview Tower</string>
-    <string name="mount_lanayru_skyview_tower">Mount Lanayru Skyview Tower</string>
-    <string name="upland_zorana_skyview_tower">Upland Zorana Skyview Tower</string>
-    <string name="rabella_wetlands_skyview_tower">Rabella Wetlands Skyview Tower</string>
-    <string name="ulri_mountains_skyview_tower">Ulri Mountains Skyview Tower</string>
-    <string name="gerudo_canyon_skyview_tower">Gerudo Canyon Skyview Tower</string>
-    <string name="gerudo_highlands_skyview_tower">Gerudo Highlands Skyview Tower</string>
+    <string name="lookout_landing_skyview_tower" translatable="false">Lookout Landing Skyview Tower</string>
+    <string name="hyrule_field_skyview_tower" translatable="false">Hyrule Field Skyview Tower</string>
+    <string name="lindors_brow_skyview_tower" translatable="false">Lindor’s Brow Skyview Tower</string>
+    <string name="popla_foothills_skyview_tower" translatable="false">Popla Foothills Skyview Tower</string>
+    <string name="eldin_canyon_skyview_tower" translatable="false">Eldin Canyon Skyview Tower</string>
+    <string name="pikida_stonegrove_skyview_tower" translatable="false">Pikida Stonegrove Skyview Tower</string>
+    <string name="thyphlo_ruins_skyview_tower" translatable="false">Thyphlo Ruins Skyview Tower</string>
+    <string name="rospro_pass_skyview_tower" translatable="false">Rospro Pass Skyview Tower</string>
+    <string name="sahasra_slope_skyview_tower" translatable="false">Sahasra Slope Skyview Tower</string>
+    <string name="mount_lanayru_skyview_tower" translatable="false">Mount Lanayru Skyview Tower</string>
+    <string name="upland_zorana_skyview_tower" translatable="false">Upland Zorana Skyview Tower</string>
+    <string name="rabella_wetlands_skyview_tower" translatable="false">Rabella Wetlands Skyview Tower</string>
+    <string name="ulri_mountains_skyview_tower" translatable="false">Ulri Mountains Skyview Tower</string>
+    <string name="gerudo_canyon_skyview_tower" translatable="false">Gerudo Canyon Skyview Tower</string>
+    <string name="gerudo_highlands_skyview_tower" translatable="false">Gerudo Highlands Skyview Tower</string>
 
-    <string name="nao_possui">Não Possui</string>
-    <string name="missao">"Missão "</string>
+    <string name="nao_possui">Does Not Have</string>
+    <string name="missao">"Quest  "</string>
 
-    <string name="nova_missao">"Nova Missão "</string>
-    <string name="alterar_missao">"Alterar Missão "</string>
-    <string name="o_nome_da_missao_nao_pode_ser_vazio">"O nome da missão não pode ser vazio"</string>
-    <string name="o_nome_do_npc_nao_pode_ser_vazio">"O nome do npc não pode ser vazio"</string>
-    <string name="as_anotacoes_nao_podem_estar_vazia">"As anotações não podem estar vazias"</string>
-    <string name="erro_regiao_vazia">"Campo região não pode estar vazio"</string>
-    <string name="erro_outra_missao_precisa_ser_completada">"Campo precisa completar outra missao não pode estar vazio"</string>
-    <string name="erro_qual_missao">"Campo Qual Missão precisa ser preenchido"</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="novo">Novo</string>
-    <string name="sobre">Sobre</string>
-    <string name="autor">Autor: Danielly Omori Antunes de Oliveira</string>
-    <string name="curso">Curso: Especialização Java</string>
+    <string name="nova_missao">"New Quest "</string>
+    <string name="alterar_missao">"Modify Quest "</string>
+    <string name="o_nome_da_missao_nao_pode_ser_vazio">Quest Name cannot be null!</string>
+    <string name="o_nome_do_npc_nao_pode_ser_vazio">NPC\'s Name cannot be null!</string>
+    <string name="as_anotacoes_nao_podem_estar_vazia">Notes cannot be null!</string>
+    <string name="erro_regiao_vazia">Region cannot be null!</string>
+    <string name="erro_outra_missao_precisa_ser_completada">Needs To Complete Another Question cannot be null!</string>
+    <string name="erro_qual_missao">Field Which Quest needs to be checked!</string>
+    <string name="cancelar">Cancel</string>
+    <string name="novo">New</string>
+    <string name="sobre">About</string>
+    <string name="autor">Author: Danielly Omori Antunes de Oliveira</string>
+    <string name="curso">Course: Java Specialization</string>
     <string name="email">Email: daniellyomori@alunos.utfpr.edu.br</string>
-    <string name="objetivo">Criar um aplicativo que auxilie no controle de missões do jogo Zelda: Tears of the Kindgom</string>
-    <string name="adicionar">Adicionar</string>
-    <string name="editar">Editar</string>
-    <string name="excluir">Excluir</string>
+    <string name="objetivo">Create an application that helps control quests in the game Zelda: Tears of the Kindgom</string>
+    <string name="adicionar">Add</string>
+    <string name="editar">Alter</string>
+    <string name="excluir">Delete</string>
+    <string name="ordernar_Nome_Missao_ASC">Sort by Quest Name - ASC</string>
+    <string name="ordernar_Nome_Missao_DESC">Sort by Quest Name - DESC</string>
 
 </resources>
