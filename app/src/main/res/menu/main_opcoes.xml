@@ -11,4 +11,14 @@
         android:id="@+id/menuItemSobre"
         android:title="@string/sobre"
         app:showAsAction="ifRoom" />
+    <group
+        android:id="@+id/groupModoOrdenacao"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/menuOrdenaASC"
+            android:title="@string/ordernar_Nome_Missao_ASC" />
+        <item
+            android:id="@+id/menuOrdenaDESC"
+            android:title="@string/ordernar_Nome_Missao_DESC" />
+    </group>
 </menu>
