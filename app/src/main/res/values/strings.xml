@@ -92,4 +92,7 @@
     <string name="ordernar_Nome_Missao_ASC">Sort by Quest Name - ASC</string>
     <string name="ordernar_Nome_Missao_DESC">Sort by Quest Name - DESC</string>
 
+    <string name="ok" translatable="false">Ok</string>
+    <string name="deseja_realmente_apagar">Do you really want to delete?</string>
+
 </resources>

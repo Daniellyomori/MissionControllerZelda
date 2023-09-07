@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Regiao;
+
 public class RegiaoActivity extends AppCompatActivity {
     private ListView listViewRegioes;
     private ArrayList<Regiao> regioes;

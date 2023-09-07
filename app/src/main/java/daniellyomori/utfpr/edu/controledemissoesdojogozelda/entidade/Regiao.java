@@ -1,4 +1,6 @@
-package daniellyomori.utfpr.edu.controledemissoesdojogozelda;
+package daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade;
+
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.Tipo;
 
 public class Regiao {
     private String nome;

@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.R;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Regiao;
+
 public class RegiaoAdapter extends BaseAdapter {
     private Context context;
     private List<Regiao> regioes;

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
+
 public class MissaoAdapter extends BaseAdapter {
     private Context context;
     private List<Missao> missoes;
@@ -70,7 +72,7 @@ public class MissaoAdapter extends BaseAdapter {
 
         holder.textViewNomeMissaoValor.setText(missoes.get(position).getNomeMissao());
         holder.textViewNomeNPCMissaoValor.setText(missoes.get(position).getNomeNPCMissao());
-        holder.textViewRegiaoValor.setText(missoes.get(position).getRegiao().getNome());
+        holder.textViewRegiaoValor.setText(missoes.get(position).getRegiao());
 
 
         switch (missoes.get(position).getPrecisaCompletarMissao()){
@@ -85,7 +87,7 @@ public class MissaoAdapter extends BaseAdapter {
         holder.textViewQualMissaoValor.setText(missoes.get(position).getQualMissao());
         holder.textViewAnotacoesValor.setText(missoes.get(position).getAnotacoes());
 
-        if(missoes.get(position).isMissaoCompleta()){
+        if(missoes.get(position).getMissaoCompleta()){
             holder.textViewMissaoCompletaValor.setText(R.string.sim);
         }
         else{
@@ -95,5 +97,8 @@ public class MissaoAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void remove(Missao missao){
+        missoes.remove(missao);
+    }
 
 }

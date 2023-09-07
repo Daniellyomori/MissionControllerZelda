@@ -1,19 +1,32 @@
-package daniellyomori.utfpr.edu.controledemissoesdojogozelda;
+package daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class Missao {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     public static final int SIM = 1;
     public static final int NAO = 2;
+    @NonNull
     private String nomeMissao;
+    @NonNull
     private String nomeNPCMissao;
-    private Regiao regiao;
+    @NonNull
+    private String regiao;
+    @NonNull
     private int precisaCompletarMissao;
     private String qualMissao;
+    @NonNull
     private String anotacoes;
+    @NonNull
     private boolean missaoCompleta;
 
     public Missao(String nomeMissao,
                   String nomeNPCMissao,
-                  Regiao regiao,
+                  String regiao,
                   int precisaCompletarMissao,
                   String qualMissao,
                   String anotacoes,
@@ -27,11 +40,20 @@ public class Missao {
         this.missaoCompleta = missaoCompleta;
     }
 
+    public Missao(){}
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNomeMissao() {
         return nomeMissao;
     }
 
-    public void setNomeMissao(String nomeMissao) {
+    public void setNomeMissao(@NonNull String nomeMissao) {
         this.nomeMissao = nomeMissao;
     }
 
@@ -39,15 +61,15 @@ public class Missao {
         return nomeNPCMissao;
     }
 
-    public void setNomeNPCMissao(String nomeNPCMissao) {
+    public void setNomeNPCMissao(@NonNull String nomeNPCMissao) {
         this.nomeNPCMissao = nomeNPCMissao;
     }
 
-    public Regiao getRegiao() {
+    public String getRegiao() {
         return regiao;
     }
 
-    public void setRegiao(Regiao regiao) {
+    public void setRegiao(@NonNull String regiao) {
         this.regiao = regiao;
     }
 
@@ -55,7 +77,7 @@ public class Missao {
         return precisaCompletarMissao;
     }
 
-    public void setPrecisaCompletarMissao(int precisaCompletarMissao) {
+    public void setPrecisaCompletarMissao(@NonNull int precisaCompletarMissao) {
         this.precisaCompletarMissao = precisaCompletarMissao;
     }
 
@@ -71,15 +93,15 @@ public class Missao {
         return anotacoes;
     }
 
-    public void setAnotacoes(String anotacoes) {
+    public void setAnotacoes(@NonNull String anotacoes) {
         this.anotacoes = anotacoes;
     }
 
-    public boolean isMissaoCompleta() {
+    public boolean getMissaoCompleta() {
         return missaoCompleta;
     }
 
-    public void setMissaoCompleta(boolean missaoCompleta) {
+    public void setMissaoCompleta(@NonNull boolean missaoCompleta) {
         this.missaoCompleta = missaoCompleta;
     }
 }

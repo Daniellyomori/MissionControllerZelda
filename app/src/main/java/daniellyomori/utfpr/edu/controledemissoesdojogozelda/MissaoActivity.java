@@ -17,9 +17,15 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.persistencia.MissoesDatabase;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.utils.UtilsGUI;
+
 public class MissaoActivity extends AppCompatActivity {
 
     public static final String MODO = "MODO";
+
+    public static final String ID = "ID";
     public static final String NOME = "NOME";
     public static String NOME_NPC = "NOME_NPC";
     public static final String REGIAO = "REGIAO";
@@ -33,6 +39,8 @@ public class MissaoActivity extends AppCompatActivity {
 
     private int modo;
 
+    private Missao missao;
+
     private EditText editTextNomeMissao, editTextNpc, editTextQualMissao, editTextAnotacoes;
     private CheckBox cbMissaoCompleta;
     private RadioGroup radioGroupMissaCompleta;
@@ -45,25 +53,14 @@ public class MissaoActivity extends AppCompatActivity {
         activity.startActivityForResult(intent, NOVO);
     }
 
-    public static void alterarMissao(AppCompatActivity activity, Missao missao){
+    public static void alterarMissao(AppCompatActivity activity, int requestCode, Missao missao){
 
         Intent intent = new Intent(activity, MissaoActivity.class);
 
         intent.putExtra(MODO, ALTERAR);
-        intent.putExtra(NOME,  missao.getNomeMissao());
-        intent.putExtra(NOME_NPC, missao.getNomeNPCMissao());
-        intent.putExtra(REGIAO, missao.getRegiao().getNome());
-        intent.putExtra(PRECISA_COMPLETAR_MISSAO, missao.getPrecisaCompletarMissao());
-        if(missao.getPrecisaCompletarMissao() == Missao.SIM){
-            intent.putExtra(QUAL_MISSAO, missao.getQualMissao());
-        }
-        else{
-            intent.putExtra(QUAL_MISSAO, "");
-        }
-        intent.putExtra(ANOTACOES, missao.getAnotacoes());
-        intent.putExtra(MISSAO_COMPLETA, missao.isMissaoCompleta());
+        intent.putExtra(ID, missao.getId());
 
-        activity.startActivityForResult(intent, ALTERAR);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     public void limparCampos() {
@@ -117,15 +114,20 @@ public class MissaoActivity extends AppCompatActivity {
 
             if(modo == NOVO){
                 setTitle(getString(R.string.nova_missao));
+                missao = new Missao();
             }
             else{
-                String nomeMissao = bundle.getString(NOME);
-                editTextNomeMissao.setText(nomeMissao);
 
-                String nomeNPCMissao = bundle.getString(NOME_NPC);
-                editTextNpc.setText(nomeNPCMissao);
+                int id = bundle.getInt(ID);
+                MissoesDatabase db = MissoesDatabase.getDatabase(this);
 
-                String regiao = bundle.getString(REGIAO);
+                missao = db.missaoDAO().queryById(id);
+
+                editTextNomeMissao.setText(missao.getNomeMissao());
+
+                editTextNpc.setText(missao.getNomeNPCMissao());
+
+                String regiao = missao.getRegiao();
 
                 for (int count = 0; count < spinnerRegioes.getAdapter().getCount(); count++){
                     String valor = (String) spinnerRegioes.getItemAtPosition(count);
@@ -135,7 +137,7 @@ public class MissaoActivity extends AppCompatActivity {
                     }
                 }
 
-                int tipo = bundle.getInt(PRECISA_COMPLETAR_MISSAO);
+                int tipo = missao.getPrecisaCompletarMissao();
                 RadioButton button;
 
                 if(tipo == Missao.SIM){
@@ -147,13 +149,11 @@ public class MissaoActivity extends AppCompatActivity {
                     button.setChecked(true);
                 }
 
-                String precisaCompletarMissao = bundle.getString(QUAL_MISSAO);
-                editTextQualMissao.setText(precisaCompletarMissao);
+                editTextQualMissao.setText(missao.getQualMissao());
 
-                String anotacoes = bundle.getString(ANOTACOES);
-                editTextAnotacoes.setText(anotacoes);
+                editTextAnotacoes.setText(missao.getAnotacoes());
 
-                boolean missaoCompleta = bundle.getBoolean(MISSAO_COMPLETA);
+                boolean missaoCompleta = missao.getMissaoCompleta();
                 cbMissaoCompleta.setChecked(missaoCompleta);
                 setTitle(getString(R.string.alterar_missao));
             }
@@ -162,23 +162,21 @@ public class MissaoActivity extends AppCompatActivity {
     }
     public void salvar() {
 
-        String nomeMissao = editTextNomeMissao.getText().toString();
-        if (nomeMissao == null || nomeMissao.trim().isEmpty()) {
-            Toast.makeText(this, R.string.o_nome_da_missao_nao_pode_ser_vazio, Toast.LENGTH_SHORT).show();
-            editTextNomeMissao.requestFocus();
+        String nomeMissao = UtilsGUI.validaCampoTexto(this, editTextNomeMissao,
+                R.string.o_nome_da_missao_nao_pode_ser_vazio);
+        if (nomeMissao == null ) {
             return;
         }
 
-        String nomeNpc = editTextNpc.getText().toString();
-        if (nomeNpc == null || nomeNpc.trim().isEmpty()) {
-            Toast.makeText(this, R.string.o_nome_do_npc_nao_pode_ser_vazio, Toast.LENGTH_SHORT).show();
-            editTextNpc.requestFocus();
+        String nomeNpc = UtilsGUI.validaCampoTexto(this, editTextNpc,
+                R.string.o_nome_do_npc_nao_pode_ser_vazio);
+        if (nomeNpc == null) {
             return;
         }
 
         String regiao = (String) spinnerRegioes.getSelectedItem();
         if (regiao == null) {
-            Toast.makeText(this, getString(R.string.erro_regiao_vazia), Toast.LENGTH_SHORT).show();
+            UtilsGUI.erro(this, R.string.erro_regiao_vazia);
             return;
         }
 
@@ -193,46 +191,49 @@ public class MissaoActivity extends AppCompatActivity {
                 precisaMissaoCompleta = Missao.NAO;
             }
             else{
-                Toast.makeText(this, getString(R.string.erro_outra_missao_precisa_ser_completada),
-                        Toast.LENGTH_SHORT).show();
+                UtilsGUI.erro(this, R.string.erro_outra_missao_precisa_ser_completada);
+                return;
+            }
+        }
+        String qualMissao = "";
+        if(precisaMissaoCompleta == Missao.SIM) {
+            qualMissao = UtilsGUI.validaCampoTexto(this, editTextQualMissao,
+                    R.string.erro_qual_missao);
+            if (qualMissao == null) {
                 return;
             }
         }
 
-        String qualMissao = editTextQualMissao.getText().toString();
-        if(precisaMissaoCompleta == Missao.SIM && (qualMissao == null || qualMissao.trim().isEmpty())){
-            Toast.makeText(this,getString(R.string.erro_qual_missao),
-                    Toast.LENGTH_SHORT).show();
-            editTextQualMissao.requestFocus();
-            return;
-        }
-
-        String anotacoes = editTextAnotacoes.getText().toString();
-        if (anotacoes == null || anotacoes.trim().isEmpty()) {
-            Toast.makeText(this, R.string.as_anotacoes_nao_podem_estar_vazia, Toast.LENGTH_SHORT).show();
-            editTextNpc.requestFocus();
+        String anotacoes = UtilsGUI.validaCampoTexto(this, editTextAnotacoes,
+                R.string.as_anotacoes_nao_podem_estar_vazia);
+        if (anotacoes == null) {
             return;
         }
 
         boolean missaoCompleta = cbMissaoCompleta.isChecked();
 
-
-        Intent intent = new Intent();
-        intent.putExtra(NOME,  nomeMissao);
-        intent.putExtra(NOME_NPC, nomeNpc);
-        intent.putExtra(REGIAO,  regiao);
-        intent.putExtra(PRECISA_COMPLETAR_MISSAO, precisaMissaoCompleta);
+        missao.setNomeMissao(nomeMissao);
+        missao.setNomeNPCMissao(nomeNpc);
+        missao.setRegiao(regiao);
+        missao.setPrecisaCompletarMissao(precisaMissaoCompleta);
         if(precisaMissaoCompleta == Missao.SIM){
-            intent.putExtra(QUAL_MISSAO, qualMissao);
+            missao.setQualMissao(qualMissao);
         }
         else{
-            intent.putExtra(QUAL_MISSAO, "");
+            missao.setQualMissao("");
         }
-        intent.putExtra(ANOTACOES, anotacoes);
-        intent.putExtra(MISSAO_COMPLETA, missaoCompleta);
+        missao.setAnotacoes(anotacoes);
+        missao.setMissaoCompleta(missaoCompleta);
 
-        setResult(Activity.RESULT_OK, intent);
+       MissoesDatabase database = MissoesDatabase.getDatabase(this);
 
+       if(modo == NOVO){
+           database.missaoDAO().insert(missao);
+       }
+       else{
+           database.missaoDAO().update(missao);
+       }
+        setResult(Activity.RESULT_OK);
         finish();
     }
 
