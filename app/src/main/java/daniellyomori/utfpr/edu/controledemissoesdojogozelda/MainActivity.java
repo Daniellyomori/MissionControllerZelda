@@ -5,13 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.view.ActionMode;
-import androidx.appcompat.view.ActionMode.Callback;
+
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,18 +22,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import java.text.Collator;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.persistencia.MissoesDatabase;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.utils.UtilsGUI;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listViewMissoes;
-    private ArrayList<Missao> listaMissoes;
+    private List<Missao> listaMissoes;
 
     MissaoAdapter missaoAdapter;
-    private int  posicaoSelecionada = -1;
+    //private int  posicaoSelecionada = -1;
     private View viewSelecionada;
 
     private androidx.appcompat.view.ActionMode actionMode;
@@ -45,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String DESC = "DESC";
 
     private String modoOrdenacao = "ASC";
+
+    private static final int REQUEST_NOVA_MISSAO   = 1;
+    private static final int REQUEST_ALTERAR_MISSAO = 2;
+
+    private int posicao = -1;
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
@@ -61,14 +71,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            if(item.getItemId() == R.id.menuItemSelecionadoEditar){
-                alterarMissao();
+
+            Missao misssao = (Missao) listViewMissoes.getItemAtPosition(posicao);
+
+            if(item.getItemId() == R.id.menuItemSelecionadoEditar) {
+                MissaoActivity.alterarMissao(MainActivity.this, REQUEST_ALTERAR_MISSAO, misssao);
                 mode.finish();
                 return true;
             }
             else{
                 if(item.getItemId() == R.id.menuItemSelecionadoExcluir){
-                    excluirMissao();
+                    excluirMissao(misssao);
                     mode.finish();
                     return true;
                 }
@@ -100,8 +113,12 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        posicaoSelecionada = position;
-                        alterarMissao();
+                        posicao = position;
+
+                        Missao missao = (Missao) parent.getItemAtPosition(position);
+                        MissaoActivity.alterarMissao(MainActivity.this,
+                                REQUEST_ALTERAR_MISSAO,
+                                missao);
                     }
                 });
         listViewMissoes.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -114,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         if(actionMode != null){
                             return false;
                         }
-                        posicaoSelecionada = position;
+                        posicao = position;
                         view.setBackgroundColor(Color.LTGRAY);
                         viewSelecionada = view;
                         listViewMissoes.setEnabled(false);
@@ -123,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         popularLista();
-        lerPreferenciaOrdenacao();
+        registerForContextMenu(listViewMissoes);
     }
     private void lerPreferenciaOrdenacao(){
         SharedPreferences shared = getSharedPreferences(ARQUIVO, Context.MODE_PRIVATE);
@@ -161,19 +178,42 @@ public class MainActivity extends AppCompatActivity {
         missaoAdapter.notifyDataSetChanged();
     }
     private void popularLista(){
-        listaMissoes = new ArrayList<>();
+        MissoesDatabase database = MissoesDatabase.getDatabase(this);
+        listaMissoes = database.missaoDAO().queryAll();
         missaoAdapter = new MissaoAdapter(this, listaMissoes);
         listViewMissoes.setAdapter(missaoAdapter);
+        lerPreferenciaOrdenacao();
     }
 
-    private void alterarMissao(){
-        Missao missao = listaMissoes.get(posicaoSelecionada);
-        MissaoActivity.alterarMissao(this, missao);
-    }
+    private void excluirMissao(final Missao missao){
 
-    private void excluirMissao(){
-        listaMissoes.remove(posicaoSelecionada);
-        missaoAdapter.notifyDataSetChanged();
+        String mensagem = getString(R.string.deseja_realmente_apagar) + "\n" + missao.getNomeMissao();
+
+        DialogInterface.OnClickListener listener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch(which){
+                            case DialogInterface.BUTTON_POSITIVE:
+
+                                MissoesDatabase database =
+                                        MissoesDatabase.getDatabase(MainActivity.this);
+
+                                database.missaoDAO().delete(missao);
+
+                                missaoAdapter.remove(missao);
+                                missaoAdapter.notifyDataSetChanged();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+
+                                break;
+                        }
+                    }
+                };
+
+        UtilsGUI.confirmar(this, mensagem, listener);
     }
 
     public void adicionarMissao(){
@@ -187,33 +227,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String nomeMissao = bundle.getString(MissaoActivity.NOME);
-            String nomeNPC = bundle.getString(MissaoActivity.NOME_NPC);
-            String regiao = bundle.getString(MissaoActivity.REGIAO);
-            int precisaCompletarMissao = bundle.getInt(MissaoActivity.PRECISA_COMPLETAR_MISSAO);
-            String qualMissao = bundle.getString(MissaoActivity.QUAL_MISSAO);
-            String anotacoes = bundle.getString(MissaoActivity.ANOTACOES);
-            boolean missaoCompleta = bundle.getBoolean(MissaoActivity.MISSAO_COMPLETA);
+        if ((requestCode == REQUEST_NOVA_MISSAO || requestCode == REQUEST_ALTERAR_MISSAO) &&
+                resultCode == Activity.RESULT_OK) {
 
-            if (requestCode == MissaoActivity.ALTERAR) {
-                Missao missao = listaMissoes.get(posicaoSelecionada);
-                missao.setNomeMissao(nomeMissao);
-                missao.setNomeNPCMissao(nomeNPC);
-                missao.setRegiao(new Regiao(regiao));
-                missao.setPrecisaCompletarMissao(precisaCompletarMissao);
-                missao.setQualMissao(qualMissao);
-                missao.setAnotacoes(anotacoes);
-                missao.setMissaoCompleta(missaoCompleta);
-                posicaoSelecionada = -1;
-
-            } else {
-                listaMissoes.add(new Missao(nomeMissao, nomeNPC, new Regiao(regiao), precisaCompletarMissao,
-                        qualMissao, anotacoes, missaoCompleta));
-            }
-            alteraOrdenacao();
-            missaoAdapter.notifyDataSetChanged();
+            popularLista();
         }
     }
 
@@ -271,4 +288,13 @@ public class MainActivity extends AppCompatActivity {
         item.setChecked(true);
         return true;
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.main_opcoes, menu);
+    }
+
 }
