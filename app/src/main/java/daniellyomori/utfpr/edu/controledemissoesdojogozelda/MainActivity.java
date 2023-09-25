@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.view.ActionMode;
@@ -21,31 +22,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Regiao;
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.persistencia.MissoesDatabase;
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.utils.UtilsGUI;
 
 public class MainActivity extends AppCompatActivity {
-
     private ListView listViewMissoes;
     private List<Missao> listaMissoes;
+    private List<Regiao> listaRegioes;
 
     MissaoAdapter missaoAdapter;
-    //private int  posicaoSelecionada = -1;
     private View viewSelecionada;
 
     private androidx.appcompat.view.ActionMode actionMode;
-
     private static final String ARQUIVO =
             "daniellyomori.utfpr.edu.controledemissoesdojogozelda.sharedpreferences.PREFERENCIAS_ORDENACAO";
 
     private static final String ORDENACAO = "ORDENCAO";
-
     private static final String ASC = "ASC";
     private static final String DESC = "DESC";
 
@@ -159,30 +157,43 @@ public class MainActivity extends AppCompatActivity {
         alteraOrdenacao();
     }
     private void alteraOrdenacao(){
-        if(modoOrdenacao.equals(ASC)){
-            Collections.sort(listaMissoes, new Comparator<Missao>() {
-                @Override
-                public int compare(final Missao object1, final Missao object2) {
-                    return object1.getNomeMissao().compareTo(object2.getNomeMissao());
-                }
-            });
+        if(listaMissoes!= null){
+            if(modoOrdenacao.equals(ASC)){
+                Collections.sort(listaMissoes, new Comparator<Missao>() {
+                    @Override
+                    public int compare(final Missao object1, final Missao object2) {
+                        return object1.getNomeMissao().compareTo(object2.getNomeMissao());
+                    }
+                });
+            }
+            else{
+                Collections.sort(listaMissoes, new Comparator<Missao>() {
+                    @Override
+                    public int compare(final Missao object1, final Missao object2) {
+                        return object2.getNomeMissao().compareTo(object1.getNomeMissao());
+                    }
+                });
+            }
+            missaoAdapter.notifyDataSetChanged();
         }
-        else{
-            Collections.sort(listaMissoes, new Comparator<Missao>() {
-                @Override
-                public int compare(final Missao object1, final Missao object2) {
-                    return object2.getNomeMissao().compareTo(object1.getNomeMissao());
-                }
-            });
-        }
-        missaoAdapter.notifyDataSetChanged();
     }
     private void popularLista(){
-        MissoesDatabase database = MissoesDatabase.getDatabase(this);
-        listaMissoes = database.missaoDAO().queryAll();
-        missaoAdapter = new MissaoAdapter(this, listaMissoes);
-        listViewMissoes.setAdapter(missaoAdapter);
-        lerPreferenciaOrdenacao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                MissoesDatabase database = MissoesDatabase.getDatabase(MainActivity.this);
+                listaMissoes = database.missaoDAO().queryAll();
+                listaRegioes = database.regiaoDAO().queryAll();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        missaoAdapter = new MissaoAdapter(MainActivity.this, listaMissoes, listaRegioes);
+                        listViewMissoes.setAdapter(missaoAdapter);
+                        lerPreferenciaOrdenacao();
+                    }
+                });
+            }
+        });
     }
 
     private void excluirMissao(final Missao missao){
@@ -196,24 +207,29 @@ public class MainActivity extends AppCompatActivity {
 
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
-
-                                MissoesDatabase database =
-                                        MissoesDatabase.getDatabase(MainActivity.this);
-
-                                database.missaoDAO().delete(missao);
-
-                                missaoAdapter.remove(missao);
-                                missaoAdapter.notifyDataSetChanged();
-                                break;
+                                AsyncTask.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MissoesDatabase database = MissoesDatabase.getDatabase(MainActivity.this);
+                                        database.missaoDAO().delete(missao);
+                                        MainActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                missaoAdapter.remove(missao);
+                                                missaoAdapter.notifyDataSetChanged();
+                                            }
+                                        });
+                                    }
+                                });
 
                             case DialogInterface.BUTTON_NEGATIVE:
-
                                 break;
                         }
                     }
                 };
 
         UtilsGUI.confirmar(this, mensagem, listener);
+        lerPreferenciaOrdenacao();
     }
 
     public void adicionarMissao(){
@@ -240,9 +256,30 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void verificarRegioes(){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                MissoesDatabase database = MissoesDatabase.getDatabase(MainActivity.this);
+                int total = database.regiaoDAO().count();
+
+                if (total == 0){
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UtilsGUI.erro(MainActivity.this, R.string.regiao_nula);
+                        }
+                    });
+                    return;
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menuItemAdicionar){
+            verificarRegioes();
             adicionarMissao();
             return true;
         }
@@ -252,19 +289,25 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else{
-                if(item.getItemId() == R.id.menuOrdenaASC){
-                    item.setChecked(true);
-                    salvarPreferenciaOrdenacao(ASC);
+                if(item.getItemId() == R.id.menuItemRegiao){
+                    RegioesActivity.iniciar(this);
                     return true;
                 }
                 else{
-                    if(item.getItemId() == R.id.menuOrdenaDESC){
+                    if(item.getItemId() == R.id.menuOrdenaASC){
                         item.setChecked(true);
-                        salvarPreferenciaOrdenacao(DESC);
+                        salvarPreferenciaOrdenacao(ASC);
                         return true;
                     }
                     else{
-                        return super.onOptionsItemSelected(item);
+                        if(item.getItemId() == R.id.menuOrdenaDESC){
+                            item.setChecked(true);
+                            salvarPreferenciaOrdenacao(DESC);
+                            return true;
+                        }
+                        else{
+                            return super.onOptionsItemSelected(item);
+                        }
                     }
                 }
             }

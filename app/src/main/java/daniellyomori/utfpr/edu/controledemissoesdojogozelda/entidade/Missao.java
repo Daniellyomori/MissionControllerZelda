@@ -1,11 +1,13 @@
 package daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade;
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "missao", foreignKeys = @ForeignKey(
+                entity = Regiao.class, parentColumns = "id", childColumns  = "regiaoId"))
 public class Missao {
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     public static final int SIM = 1;
@@ -15,8 +17,6 @@ public class Missao {
     @NonNull
     private String nomeNPCMissao;
     @NonNull
-    private String regiao;
-    @NonNull
     private int precisaCompletarMissao;
     private String qualMissao;
     @NonNull
@@ -24,23 +24,11 @@ public class Missao {
     @NonNull
     private boolean missaoCompleta;
 
-    public Missao(String nomeMissao,
-                  String nomeNPCMissao,
-                  String regiao,
-                  int precisaCompletarMissao,
-                  String qualMissao,
-                  String anotacoes,
-                  boolean missaoCompleta) {
-        this.nomeMissao = nomeMissao;
-        this.nomeNPCMissao = nomeNPCMissao;
-        this.regiao = regiao;
-        this.precisaCompletarMissao = precisaCompletarMissao;
-        this.qualMissao = qualMissao;
-        this.anotacoes = anotacoes;
-        this.missaoCompleta = missaoCompleta;
-    }
+    @ColumnInfo(index = true)
+    private int regiaoId;
 
     public Missao(){}
+
     public int getId() {
         return id;
     }
@@ -63,14 +51,6 @@ public class Missao {
 
     public void setNomeNPCMissao(@NonNull String nomeNPCMissao) {
         this.nomeNPCMissao = nomeNPCMissao;
-    }
-
-    public String getRegiao() {
-        return regiao;
-    }
-
-    public void setRegiao(@NonNull String regiao) {
-        this.regiao = regiao;
     }
 
     public int getPrecisaCompletarMissao() {
@@ -103,5 +83,18 @@ public class Missao {
 
     public void setMissaoCompleta(@NonNull boolean missaoCompleta) {
         this.missaoCompleta = missaoCompleta;
+    }
+
+    public int getRegiaoId() {
+        return regiaoId;
+    }
+
+    public void setRegiaoId(int regiaoId) {
+        this.regiaoId = regiaoId;
+    }
+
+    @Override
+    public String toString(){
+        return getNomeMissao();
     }
 }

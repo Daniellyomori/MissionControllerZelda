@@ -12,7 +12,6 @@ import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
 
 @Dao
 public interface MissaoDAO {
-
     @Insert
     long insert(Missao missao);
 
@@ -28,4 +27,6 @@ public interface MissaoDAO {
     @Query("SELECT * FROM missao ORDER BY nomeMissao ASC")
     List<Missao> queryAll();
 
+    @Query("SELECT COUNT(*) FROM missao WHERE regiaoId = :id LIMIT 1")
+    int queryForRegiaoId(int id);
 }
