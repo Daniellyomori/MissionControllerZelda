@@ -52,4 +52,11 @@
     <string name="ordernar_Nome_Missao_ASC">Ordenar Nome Missão - ASC</string>
     <string name="ordernar_Nome_Missao_DESC">Ordenar Nome Missão - DESC</string>
     <string name="deseja_realmente_apagar">Deseja realmente apagar?</string>
+    <string name="regiao_titulo">Região</string>
+    <string name="regiao_sendo_utilizada">Região não pode ser apagada pois está sendo utilizada!</string>
+    <string name="alterar_regiao">Alterar Regiao</string>
+    <string name="nova_regiao">Nova Região</string>
+    <string name="valida_nome_regiao">Campo [Nome Região] não pode ser nulo!</string>
+    <string name="regiao_existente">Região já existente!</string>
+    <string name="regiao_nula">Nenhuma região cadastrada</string>
 </resources>

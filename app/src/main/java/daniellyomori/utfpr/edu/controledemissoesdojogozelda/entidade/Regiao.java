@@ -1,22 +1,40 @@
 package daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade;
 
-import daniellyomori.utfpr.edu.controledemissoesdojogozelda.Tipo;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.Tipo;
+@Entity(tableName = "regiao", indices = @Index(value = {"nome"}, unique = true))
 public class Regiao {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @NotNull
     private String nome;
     private String nomeTorre;
     private Tipo tipo;
-
     int qtdeShrines;
 
     public Regiao(String nome){
-        this.nome = nome;
+        setNome(nome);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
         return nome;
     }
 
+    @NonNull
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -43,5 +61,9 @@ public class Regiao {
 
     public void setQtdeShrines(int qtdeShrines) {
         this.qtdeShrines = qtdeShrines;
+    }
+    @Override
+    public String toString(){
+        return getNome();
     }
 }

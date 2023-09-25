@@ -10,13 +10,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ControleDeMissoesDoJogoZelda"
+        android:theme="@style/AppTheme"
         tools:targetApi="33">
         <activity android:name=".SobreActivity"
             android:parentActivityName=".MainActivity" android:exported="false" />
-        <activity android:name=".MissaoActivity"
-            android:parentActivityName=".MainActivity" android:exported="false" />
         <activity android:name=".RegiaoActivity"
+            android:parentActivityName=".RegioesActivity" android:exported="false" />
+        <activity android:name=".MissaoActivity"
+            android:parentActivityName=".MainActivity" android:exported="false"/>
+        <activity android:name=".RegioesActivity"
             android:parentActivityName=".MainActivity" android:exported="true" />
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>

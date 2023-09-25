@@ -3,6 +3,7 @@
     <string name="nome_missao">Quest Name:</string>
     <string name="npc_missao">Quest NPC:</string>
     <string name="regiao">Region:</string>
+    <string name="regiao_titulo">Region</string>
     <string name="precisa_completar">Need to complete other quest before this one?</string>
     <string name="sim">Yes</string>
     <string name="nao">No</string>
@@ -16,6 +17,7 @@
     <string name="valida_anotacoes">Field [Notes] can not be null!</string>
     <string name="valida_nome_npc">Field [Quest NPC] can not be null!!</string>
     <string name="valida_radio_button_missao_dependente">Button [Complete Another Quest] needs to be selected!</string>
+    <string name="valida_nome_regiao">Field [Region Name] can not be null!</string>
 
     <string name="regiao_espaco">"Region  "</string>
     <string name="nome_regiao">Region Name:</string>
@@ -72,7 +74,9 @@
     <string name="missao">"Quest  "</string>
 
     <string name="nova_missao">"New Quest "</string>
+    <string name="nova_regiao">"New Region "</string>
     <string name="alterar_missao">"Modify Quest "</string>
+    <string name="alterar_regiao">"Modify Region "</string>
     <string name="o_nome_da_missao_nao_pode_ser_vazio">Quest Name cannot be null!</string>
     <string name="o_nome_do_npc_nao_pode_ser_vazio">NPC\'s Name cannot be null!</string>
     <string name="as_anotacoes_nao_podem_estar_vazia">Notes cannot be null!</string>
@@ -94,5 +98,8 @@
 
     <string name="ok" translatable="false">Ok</string>
     <string name="deseja_realmente_apagar">Do you really want to delete?</string>
+    <string name="regiao_sendo_utilizada">Region cannot be delete. It is already being used!</string>
+    <string name="regiao_existente">Region already exists!</string>
+    <string name="regiao_nula">No region registered</string>
 
 </resources>

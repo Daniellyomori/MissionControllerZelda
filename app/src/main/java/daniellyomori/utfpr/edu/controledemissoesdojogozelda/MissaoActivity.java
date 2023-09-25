@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,23 +19,16 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.List;
+
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Regiao;
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.persistencia.MissoesDatabase;
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.utils.UtilsGUI;
 
 public class MissaoActivity extends AppCompatActivity {
-
     public static final String MODO = "MODO";
-
     public static final String ID = "ID";
-    public static final String NOME = "NOME";
-    public static String NOME_NPC = "NOME_NPC";
-    public static final String REGIAO = "REGIAO";
-    public static final String PRECISA_COMPLETAR_MISSAO = "PRECISA_COMPLETAR_MISSAO";
-    public static final String QUAL_MISSAO = "QUAL_MISSAO";
-    public static final String ANOTACOES = "ANOTACOES";
-    public static final String MISSAO_COMPLETA = "MISSAO_COMPLETA";
-
     public static final int NOVO  = 1;
     public static final int ALTERAR = 2;
 
@@ -46,6 +41,8 @@ public class MissaoActivity extends AppCompatActivity {
     private RadioGroup radioGroupMissaCompleta;
     private Spinner spinnerRegioes;
 
+    private List<Regiao> listaRegioes;
+
 
     public static void novaMissao(AppCompatActivity activity){
         Intent intent = new Intent(activity, MissaoActivity.class);
@@ -54,7 +51,6 @@ public class MissaoActivity extends AppCompatActivity {
     }
 
     public static void alterarMissao(AppCompatActivity activity, int requestCode, Missao missao){
-
         Intent intent = new Intent(activity, MissaoActivity.class);
 
         intent.putExtra(MODO, ALTERAR);
@@ -79,7 +75,7 @@ public class MissaoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_missao);
+        setContentView(R.layout.cadastro_missao);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
@@ -109,6 +105,8 @@ public class MissaoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
+        carregarRegioes();
+
         if(bundle != null){
             modo = bundle.getInt(MODO, NOVO);
 
@@ -117,48 +115,79 @@ public class MissaoActivity extends AppCompatActivity {
                 missao = new Missao();
             }
             else{
-
-                int id = bundle.getInt(ID);
-                MissoesDatabase db = MissoesDatabase.getDatabase(this);
-
-                missao = db.missaoDAO().queryById(id);
-
-                editTextNomeMissao.setText(missao.getNomeMissao());
-
-                editTextNpc.setText(missao.getNomeNPCMissao());
-
-                String regiao = missao.getRegiao();
-
-                for (int count = 0; count < spinnerRegioes.getAdapter().getCount(); count++){
-                    String valor = (String) spinnerRegioes.getItemAtPosition(count);
-                    if (valor.equals(regiao)){
-                        spinnerRegioes.setSelection(count);
-                        break;
-                    }
-                }
-
-                int tipo = missao.getPrecisaCompletarMissao();
-                RadioButton button;
-
-                if(tipo == Missao.SIM){
-                    button = findViewById(R.id.radioButtonSim);
-                    button.setChecked(true);
-                }
-                else if(tipo == Missao.NAO){
-                    button = findViewById(R.id.radioButtonNao);
-                    button.setChecked(true);
-                }
-
-                editTextQualMissao.setText(missao.getQualMissao());
-
-                editTextAnotacoes.setText(missao.getAnotacoes());
-
-                boolean missaoCompleta = missao.getMissaoCompleta();
-                cbMissaoCompleta.setChecked(missaoCompleta);
                 setTitle(getString(R.string.alterar_missao));
-            }
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int id = bundle.getInt(ID);
 
+                        MissoesDatabase database = MissoesDatabase
+                                .getDatabase(MissaoActivity.this);
+                        missao = database.missaoDAO().queryById(id);
+
+                        MissaoActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                editTextNomeMissao.setText(missao.getNomeMissao());
+                                editTextNpc.setText(missao.getNomeNPCMissao());
+
+                                int posicao = posicaoRegiao(missao.getRegiaoId());
+                                spinnerRegioes.setSelection(posicao);
+
+                                int tipo = missao.getPrecisaCompletarMissao();
+                                RadioButton button;
+
+                                if(tipo == Missao.SIM){
+                                    button = findViewById(R.id.radioButtonSim);
+                                    button.setChecked(true);
+                                }
+                                else if(tipo == Missao.NAO){
+                                    button = findViewById(R.id.radioButtonNao);
+                                    button.setChecked(true);
+                                }
+
+                                editTextQualMissao.setText(missao.getQualMissao());
+
+                                editTextAnotacoes.setText(missao.getAnotacoes());
+
+                                boolean missaoCompleta = missao.getMissaoCompleta();
+                                cbMissaoCompleta.setChecked(missaoCompleta);
+                            }
+                        });
+                    }
+                });
+            }
         }
+    }
+
+    private int posicaoRegiao(int regiaoId){
+
+        for (int i=0; i<listaRegioes.size(); i++){
+            Regiao regiao = listaRegioes.get(i);
+            if (regiao.getId() == regiaoId){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void carregarRegioes(){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                MissoesDatabase database = MissoesDatabase.getDatabase(MissaoActivity.this);
+                listaRegioes = database.regiaoDAO().queryAll();
+                MissaoActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<Regiao> spinnerAdapter = new ArrayAdapter<>(MissaoActivity.this,
+                                        android.R.layout.simple_list_item_1, listaRegioes);
+
+                        spinnerRegioes.setAdapter(spinnerAdapter);
+                    }
+                });
+            }
+        });
     }
     public void salvar() {
 
@@ -171,12 +200,6 @@ public class MissaoActivity extends AppCompatActivity {
         String nomeNpc = UtilsGUI.validaCampoTexto(this, editTextNpc,
                 R.string.o_nome_do_npc_nao_pode_ser_vazio);
         if (nomeNpc == null) {
-            return;
-        }
-
-        String regiao = (String) spinnerRegioes.getSelectedItem();
-        if (regiao == null) {
-            UtilsGUI.erro(this, R.string.erro_regiao_vazia);
             return;
         }
 
@@ -214,7 +237,12 @@ public class MissaoActivity extends AppCompatActivity {
 
         missao.setNomeMissao(nomeMissao);
         missao.setNomeNPCMissao(nomeNpc);
-        missao.setRegiao(regiao);
+
+        Regiao regiao = (Regiao) spinnerRegioes.getSelectedItem();
+        if (regiao != null){
+            missao.setRegiaoId(regiao.getId());
+        }
+
         missao.setPrecisaCompletarMissao(precisaMissaoCompleta);
         if(precisaMissaoCompleta == Missao.SIM){
             missao.setQualMissao(qualMissao);
@@ -225,16 +253,22 @@ public class MissaoActivity extends AppCompatActivity {
         missao.setAnotacoes(anotacoes);
         missao.setMissaoCompleta(missaoCompleta);
 
-       MissoesDatabase database = MissoesDatabase.getDatabase(this);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                MissoesDatabase database = MissoesDatabase.getDatabase(MissaoActivity.this);
 
-       if(modo == NOVO){
-           database.missaoDAO().insert(missao);
-       }
-       else{
-           database.missaoDAO().update(missao);
-       }
-        setResult(Activity.RESULT_OK);
-        finish();
+                if (modo == NOVO) {
+                    database.missaoDAO().insert(missao);
+                }
+                else {
+                    database.missaoDAO().update(missao);
+                }
+
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+        });
     }
 
     public void cancelar(){

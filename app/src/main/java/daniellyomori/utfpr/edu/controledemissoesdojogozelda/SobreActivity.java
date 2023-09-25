@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class SobreActivity extends AppCompatActivity {
-
     public static void sobre(AppCompatActivity activity){
 
         Intent intent = new Intent(activity, SobreActivity.class);

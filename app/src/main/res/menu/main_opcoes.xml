@@ -11,6 +11,9 @@
         android:id="@+id/menuItemSobre"
         android:title="@string/sobre"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemRegiao"
+        android:title="@string/regiao_titulo" />
     <group
         android:id="@+id/groupModoOrdenacao"
         android:checkableBehavior="single">

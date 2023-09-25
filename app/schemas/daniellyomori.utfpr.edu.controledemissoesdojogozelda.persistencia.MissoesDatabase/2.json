@@ -1,0 +1,158 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "fa898dd4530859fe9988d59b375f9b46",
+    "entities": [
+      {
+        "tableName": "missao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nomeMissao` TEXT NOT NULL, `nomeNPCMissao` TEXT NOT NULL, `regiao` TEXT NOT NULL, `precisaCompletarMissao` INTEGER NOT NULL, `qualMissao` TEXT, `anotacoes` TEXT NOT NULL, `missaoCompleta` INTEGER NOT NULL, `regiaoId` INTEGER NOT NULL, FOREIGN KEY(`regiaoId`) REFERENCES `regiao`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomeMissao",
+            "columnName": "nomeMissao",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomeNPCMissao",
+            "columnName": "nomeNPCMissao",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regiao",
+            "columnName": "regiao",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precisaCompletarMissao",
+            "columnName": "precisaCompletarMissao",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qualMissao",
+            "columnName": "qualMissao",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "anotacoes",
+            "columnName": "anotacoes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "missaoCompleta",
+            "columnName": "missaoCompleta",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regiaoId",
+            "columnName": "regiaoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_missao_regiaoId",
+            "unique": false,
+            "columnNames": [
+              "regiaoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_missao_regiaoId` ON `${TABLE_NAME}` (`regiaoId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "regiao",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "regiaoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "regiao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `nomeTorre` TEXT, `tipo` TEXT, `qtdeShrines` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nomeTorre",
+            "columnName": "nomeTorre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qtdeShrines",
+            "columnName": "qtdeShrines",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_regiao_nome",
+            "unique": true,
+            "columnNames": [
+              "nome"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_regiao_nome` ON `${TABLE_NAME}` (`nome`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fa898dd4530859fe9988d59b375f9b46')"
+    ]
+  }
+}

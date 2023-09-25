@@ -10,10 +10,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Missao;
+import daniellyomori.utfpr.edu.controledemissoesdojogozelda.entidade.Regiao;
 
 public class MissaoAdapter extends BaseAdapter {
     private Context context;
     private List<Missao> missoes;
+    private List<Regiao> regioes;
 
     private static class MissaoHolder{
         public TextView textViewNomeMissaoValor;
@@ -26,9 +28,10 @@ public class MissaoAdapter extends BaseAdapter {
 
     }
 
-    public MissaoAdapter(Context context, List<Missao> missoes){
+    public MissaoAdapter(Context context, List<Missao> missoes, List<Regiao> regioes){
         this.context = context;
         this.missoes = missoes;
+        this.regioes = regioes;
     }
 
     @Override
@@ -72,7 +75,12 @@ public class MissaoAdapter extends BaseAdapter {
 
         holder.textViewNomeMissaoValor.setText(missoes.get(position).getNomeMissao());
         holder.textViewNomeNPCMissaoValor.setText(missoes.get(position).getNomeNPCMissao());
-        holder.textViewRegiaoValor.setText(missoes.get(position).getRegiao());
+
+        for(Regiao regiao : regioes){
+            if(missoes.get(position).getRegiaoId() == regiao.getId()){
+                holder.textViewRegiaoValor.setText(regiao.getNome());
+            }
+        }
 
 
         switch (missoes.get(position).getPrecisaCompletarMissao()){
