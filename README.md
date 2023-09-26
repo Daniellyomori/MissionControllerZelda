@@ -1,10 +1,10 @@
-# MissionControllerZelda
-Tears of the Kingdom é um jogo de mundo aberto, com diversas missões espalhadas pelos três níveis de mapas: céu, superfície e subterrâneo. O seu sistema de checklist de missões do jogo, porém, não acompanha tão bem essa complexidade, marcando apenas onde a missão é dada e um texto genérico, fazendo com que o jogador esqueça as informações, caso jogue em períodos mais espaçados.
+#MissionControllerZelda
+Tears of the Kingdom is an open world game, with several missions spread across three map levels: sky, surface and underground. The game's mission checklist system, however, does not follow this complexity so well, only marking where the mission is given and a generic text, causing the player to forget the information if they play in more spaced periods.
 
-O objetivo desse sistema será auxiliar o jogador que fica períodos sem jogar e esquece as informações referente as missões. Ele poderá cadastrar a missão do jogo, marcando as regiões relacionadas, e realizar anotações que achar necessário para complementar as informações já existentes. Além disso, ele poderá também marcar caso a missão seja finalizada.
+The objective of this system will be to help players who spend periods without playing and forget information regarding missions. He will be able to register the game's mission, marking the related regions, and make notes that he deems necessary to complement the already existing information. In addition, he will also be able to score if the mission is completed.
 
-## Manual de execução
-- Clonar o repositório com `git clone`
-- Fazer checkout no branch `main` que contém a versão final do aplicativo
-- Abrir o projeto no editor Android Studio
-- Buildar uma versão e executá-la no emulador disponível
+## Execution manual
+- Clone the repository with `git clone`
+- Checkout the `main` branch that contains the final version of the application
+- Open the project in the Android Studio editor
+- Build a version and run it on the available emulator
